@@ -1,16 +1,12 @@
 from abc import ABC, abstractmethod
 
-class Topic(ABC):
-    @abstractmethod
+class Topic(object):
     def __init__(self):
         self.subscribers = []
-    @abstractmethod
     def register(self, observer):
         self.subscribers.append(observer)
-    @abstractmethod
     def unregister(self, observer):
         self.subscribers.remove(observer)
-    @abstractmethod
     def NotifyObservers(self):
         for susbscriber in self.subscribers:
             susbscriber.update()
@@ -29,7 +25,12 @@ class Observer(ABC):
 
 class PhoneFeed(Topic):
     def __init__(self, name):
-        self.name == name
+        Topic.__init__(self)
+        self.name = name
+        self.message = None
+    def newMessage(self, message):
+        self.message = message
+        self.NotifyObservers()
 
 
 
@@ -44,8 +45,12 @@ class CorporateCustomer(Observer):
 
 if __name__ == "__main__":
     iphoneFeed = PhoneFeed("Iphone")
-    androidFeer = PhoneFeed("Android")
+    androidFeed = PhoneFeed("Android")
     john = Regularcustomer()
     john.setSubject(iphoneFeed)
     Ann = CorporateCustomer()
-    Ann.setSubject(androidFeer)
+    Ann.setSubject(androidFeed)
+
+    androidFeed.newMessage("New Samsumg out!")
+
+    iphoneFeed.newMessage("Iphone upgrade!")
